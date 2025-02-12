@@ -1,0 +1,7 @@
+#Ignore bin+.vs+obj
+**/bin/
+**/.vs/
+**/obj
+
+#Secret file
+**/Secret.cs

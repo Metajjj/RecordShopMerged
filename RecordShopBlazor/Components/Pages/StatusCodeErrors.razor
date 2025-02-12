@@ -1,0 +1,14 @@
+﻿@page "/StatusCodeErrors/{Code}"
+@* specifies param is an int *@
+
+@code {
+    private string code;
+    [Parameter] public string? Code { get{
+            return $"https://http.cat/images/{code}.jpg";
+        } set { code = value; } }
+
+
+}
+
+<h2>ERROR OCCURED!</h2>
+<img src=@Code />

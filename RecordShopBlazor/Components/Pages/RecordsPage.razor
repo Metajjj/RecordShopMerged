@@ -1,0 +1,42 @@
+﻿@page "/records/{id:long}"
+
+<h3>RecordsPage</h3>
+
+@code {
+    [Parameter]
+    public long id { get; set; } //Connects to url param
+
+    private Albums album{ get; set; }
+    private static int statusCode = StatusCodes.Status418ImATeapot;
+
+
+    private string imgUrl { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var resp = await new HttpClient { BaseAddress = new("https://localhost:7148") }.GetAsync($"Album/{id}");
+
+        statusCode = (int)resp.StatusCode;
+
+        if(resp.IsSuccessStatusCode){
+            album = JsonSerializer.Deserialize<Albums>(resp.Content.ReadAsStream());
+        }else{
+            album = null;
+
+            imgUrl = $"https://http.cat/images/{statusCode}.jpg";
+                //WORKS !
+        }
+
+    }
+}
+
+
+@if(album != null){
+    <RecordSummary Record="album" />
+}else{
+    //Pull from HTTP cats?? GET main *[.text-center] https://http.cats/status/{code}
+    <div>Error occured! <hr /> 
+        <img src="@imgUrl" />
+    </div>
+}
+

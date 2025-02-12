@@ -1,0 +1,79 @@
+﻿<h3>RecordDetails</h3>
+
+@using Tables;
+
+@inject NavigationManager NVM
+
+@rendermode InteractiveServer
+
+
+@* TODO SORT DETAILS CENTRALISE TODO TODO TODO FIXX*@
+
+@code {
+
+    [Parameter]
+    [EditorRequired]    //Make it required!
+    public Albums album { get; set; }
+
+    public Dictionary<string,string> vals = new();
+
+    protected override void OnParametersSet()
+    {
+        //When params are set
+        foreach (var FI in album.GetType().GetProperties())
+        { vals.TryAdd(FI.Name, FI.GetValue(album)?.ToString() ?? ""); }
+        //Allow null/empty
+    }
+
+    private async Task UpdateAlbum()
+    {
+        //Grab data from InputText and repopulate album
+        var A = new Albums();
+
+        foreach(var kvp in vals)
+        {
+            //Err setting string for int!
+            //Convert based on type name?
+            var pt = A.GetType().GetProperty(kvp.Key).PropertyType;
+
+            if(pt == typeof(DateOnly)){
+                A.GetType().GetProperty(kvp.Key).SetValue(A, DateOnly.Parse(kvp.Value));
+            }else{
+                A.GetType().GetProperty(kvp.Key).SetValue(A, Convert.ChangeType(kvp.Value, pt));
+            }
+        }
+
+        album = A; //Should trigger a re-render
+
+        //confirm works - update for BE
+        Console.WriteLine("new param:" + JsonSerializer.Serialize(album));
+
+
+        var res = await new HttpClient { BaseAddress = Global.BackEnd }.PutAsJsonAsync("Album", album);
+        //TODO Should be patch/put for update not post ?????
+    }
+
+    private async Task DeleteAlbum(){
+        var res = await new HttpClient { BaseAddress = Global.BackEnd }.DeleteAsync($"Album/{vals.Values.ToList()[0]}");
+
+        Console.WriteLine("Del result:\n"+JsonSerializer.Serialize(res));
+
+        NVM.NavigateTo("/records"); //Successful delete, remove page and edit potential
+    }
+}
+
+@if (album != null && vals.Count>0){
+    //Iterate get all public fields
+    foreach(var kvp in vals){
+        //bind doesnt accept object type
+        <input type="text" DisplayName=@kvp.Key @bind=vals[kvp.Key] />
+    }
+
+    if (Regex.IsMatch(NVM.Uri, "records/\\d")){ //Allows edits if viewing individually
+    <button type="button" style="min-height:100; width400px;" @onclick="() => UpdateAlbum()"> Save Changes! </button>
+
+    <button type="button" style="min-height:100; width400px;" @onclick="() => DeleteAlbum()"> Delete! </button>
+    }
+}else{
+    <div>Error missing album attribute!</div>
+}

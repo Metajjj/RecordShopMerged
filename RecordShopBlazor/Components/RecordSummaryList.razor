@@ -1,0 +1,35 @@
+﻿
+  @* dependency injecting for blazor *@
+@inject NavigationManager NvMgr
+
+@code {
+    [Parameter]
+    public List<Albums> records { get; set; } = [];
+
+    //[Inject] public HttpClient client { get; set; } //TODO Optional 
+
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        //Manually set params?
+        await base.SetParametersAsync(parameters);
+
+        parameters.TryGetValue("records", out List<Albums>? records);
+
+        this.records = records ?? new HttpClient { BaseAddress = Global.BackEnd }.GetFromJsonAsync<List<Albums>>("Album").Result;
+
+        // StateHasChanged(); //Force a re-render of component + by-product page
+    }
+
+    private void redirect(int id) {
+        NvMgr.NavigateTo($"records/{id}");
+    }
+}
+
+@foreach(var r in records){
+
+                            @* no onclick attribute err *@
+    <button @onclick="()=>redirect(r.Id)">
+        <RecordSummary Record="@r"/>
+    </button>
+    <hr />
+}

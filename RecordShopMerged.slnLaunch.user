@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "F+B",
+    "Projects": [
+      {
+        "Path": "AspNetTest\\AspNetTest.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "RecordShopBlazor\\RecordShopBlazor.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
