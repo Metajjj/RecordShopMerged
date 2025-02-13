@@ -17,28 +17,14 @@ namespace RecordShop_BE
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<MyDbContext>(
-            //    optionsBuilder =>
-            //{
-            //    var host = builder.Environment;
-
-            //    if (host.IsDevelopment())
-            //    { optionsBuilder.UseInMemoryDatabase("TempDB"); }
-            //    else if (host.IsProduction())
-            //    {
-            //        optionsBuilder.UseSqlServer($"Server={Secret.Server};Database={Secret.Database};User Id={Secret.User};Password={Secret.Password};Trust Server Certificate=True");
-            //    }
-            //    else { throw new NotImplementedException("Unexpected environment!"); }}
-            );
+            builder.Services.AddDbContext<MyDbContext>();
 
                 //Dependency inject to create elsewhere - helps with migration when DE for DB
 
             builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
             builder.Services.AddScoped<IAlbumService, AlbumService>();
 
-
-            //builder.Services.AddCors(); //Allow cross-origin access
-
+            //builder.Services.AddCors(); //Allow cross-origin access??
 
             // Add services to the container.
 
@@ -63,7 +49,6 @@ namespace RecordShop_BE
             app.UseAuthorization();
 
             app.MapControllers();
-
 
             
             app.Run();

@@ -20,9 +20,14 @@
     protected override void OnParametersSet()
     {
         //When params are set
-        foreach (var FI in album.GetType().GetProperties())
-        { vals.TryAdd(FI.Name, FI.GetValue(album)?.ToString() ?? ""); }
-        //Allow null/empty
+        if (album != null)
+        {
+
+            foreach (var FI in album.GetType().GetProperties())
+            { vals.TryAdd(FI.Name, FI.GetValue(album)?.ToString() ?? ""); }
+            //Allow null/empty
+        }
+        
     }
 
     private async Task UpdateAlbum()
@@ -68,8 +73,9 @@
         //bind doesnt accept object type
         <input type="text" DisplayName=@kvp.Key @bind=vals[kvp.Key] />
     }
-
-    if (Regex.IsMatch(NVM.Uri, "records/\\d")){ //Allows edits if viewing individually
+    
+    //Allows edits if viewing individually based on page route
+    if (Regex.IsMatch(NVM.Uri, "records/\\d")){ 
     <button type="button" style="min-height:100; width400px;" @onclick="() => UpdateAlbum()"> Save Changes! </button>
 
     <button type="button" style="min-height:100; width400px;" @onclick="() => DeleteAlbum()"> Delete! </button>

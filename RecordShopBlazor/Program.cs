@@ -1,8 +1,8 @@
 using System.Diagnostics;
 
-using RecordShop_FE.Components;
+using RecordShopBlazor.Components;
 
-namespace RecordShop_FE
+namespace RecordShopBlazor
 {
     public class Program
     {

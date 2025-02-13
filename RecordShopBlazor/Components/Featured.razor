@@ -1,0 +1,18 @@
+﻿<section id=featured>
+    <h1> Featured </h1>
+@code{
+    private Albums RanAlbum { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        var resp = new HttpClient { BaseAddress = Global.BackEnd }.GetFromJsonAsync<List<Albums>>("/Album").Result;
+
+        try { RanAlbum = resp[new Random().Next(0, resp.Count + 1)]; }
+        catch(IndexOutOfRangeException e) { Console.WriteLine("Expected?\n "+e); }
+        catch(Exception e) { Console.WriteLine("HANDLE!\n "+e); }
+    }
+}
+
+
+</section>

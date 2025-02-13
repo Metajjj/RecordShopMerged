@@ -2,7 +2,12 @@
 
 @code {
     [Parameter]
-    public Albums Record { get; set; }
+    public Albums Record { get; set; } = new();
 }
 
-<RecordDetails album="@Record" />
+<!-- https://pixabay.com/illustrations/casette-tape-casette-tape-k7-1361688/ -->
+<img src="./media/RecordIcon.png" style="height:50px; background-color:#FFFF00" />
+
+<section>
+    @Record.Title | @Record.Artist :: @Record.Description | @Record.ReleaseDate
+</section>

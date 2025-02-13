@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-namespace RecordShop_FE.Client
+namespace RecordShopBlazor.Client
 {
     internal class Program
     {
