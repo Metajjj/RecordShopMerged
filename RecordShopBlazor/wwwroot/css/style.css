@@ -1,69 +1,58 @@
-﻿* [theme=dark] {
-    --OuterBg: #696969;
-    --OuterFg: #101010;
+﻿* [theme=sand] {
+    --OuterBg: #fbd680;
+    --OuterFg: #f9f9f9;
+    --Accent: #fbf080;
+    --MainBg: #fbb880;
+    --MainFg: #343434;
 }
 
+body{ background-color: var(--MainBg); color: var(--MainFg); }
 
+footer, header{ background-color: var(--OuterBg); color: var(--OuterFg); }
 
-header {
-    padding: 5px;
-    margin: auto;
-    background-color: var(--OuterBg); color: var(--OuterFg);
-    max-width: 80%;
-    align-content: center;
-    justify-content: center;
+header{
+    /*% = rel to parent, vh = rel to visible window*/
+    width: 80%; height:20vh;
+    padding: .5%;
+
     text-align: center;
+    margin: auto;
+
+    /*grid layout*/
     display: grid;
-    grid-template-areas: "Img Title Nav";
-    grid-template-columns: 1fr 6fr 1fr;
-}
-footer{
-    background-color: var(--OuterBg); color: var(--OuterFg);
-    min-width: 95%; font-weight: bold;
-    font-size: 30px;
-
-    /*magic fix to centre divs*/
-    left: 50%; transform: translateX(-50%);
+    grid-template-columns: 1fr 7fr 2fr;
+    grid-template-rows: minmax(10%,20%);
 }
 
-#HeaderImg {
-    grid-area: "Img";
-    height: 100px;
-    width: 100px;
-    margin: auto;
+/*@media querys to make responsive to diff layouts*/
+/*screen | printer | projected | tv | speech | all
+    screen-visual display, printer - i.e. print view, projeceted - presentation, speech - screen readers etc..
+*/
+
+@media screen and (max-width: 600px){
+    header{
+        display:grid; grid-template-rows: auto; grid-template-columns: 1fr;
+        /* auto fit content*/
+        color: var(--MainBg);
+    }
 }
 
-#HeaderTitle {
-    grid-area: "Title";
-    margin: 0 auto;
-    align-content: center; /*only autosize width, align center*/
+header img{
+    /*TODO set size limits*/
+    width:100%;
 }
 
-#HeaderNav {
-    grid-area: "Nav";
-    background-color: #828282;
+header *{
+    margin: auto; text-shadow: var(--MainFg) 0px 1px 1px;
+    font-size: 5vh;
 }
 
-body * {
-    text-align: center;
-    width: fit-content;
+footer {
+    bottom: 5px;
+    position: fixed;
 }
 
-form {
-    margin: auto;
-    border: #FFFFFF8F groove 2px;
-}
-
-form hr {
-    width: 100%
-}
-
-body {
-    background-color: #111111;
-    color: #EEEEEE
-}
-
-h1, h2, h3, label {
-    background-color: #999999;
-    margin: auto;
-}
+/*TODO
+    grid for overall layout, flex for adjustability
+    2d vs 1d | layout vs content
+*/

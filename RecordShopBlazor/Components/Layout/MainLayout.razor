@@ -1,33 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
-@inject NavigationManager NVM
-
-
-<script>
-    //TODO undefined err for oncick?!
-    let NavHome = () => {
-        console.log("Go home!"); window.location.href = `@NVM.BaseUri` ;
-    }
-</script>
-
-
- @*ran idea.. 2 headers, 1 pos fixed, 1 invis to keep margin diff and other moves, invis on mouse scroll*@
-<header id="Header">
-    <img id="HeaderImg" src="https://th.bing.com/th/id/R.54249dbcb4fbe10291c9e513a55ef500?rik=y9ZtISntfsiEaw&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fcompact-cd-dvd-disk-png-image-1024.png&ehk=l2VhLe1nSk%2fRp8HxGKEokwmqdcEe63llF3RhSxxdBFA%3d&risl=&pid=ImgRaw&r=0" alt="Logo of a CD-disc" />
-    <h1 id="HeaderTitle" onclick="NavHome()">Record Shop</h1>
-    <nav id="HeaderNav">
-        <h3>Nav Menu</h3>
-        <NavMenu></NavMenu>
-    </nav>
-</header>
+<RecordShopBlazor.Components.Layout.Header.Header />
+ 
 
 @Body 
 @* Replaced by content where this layout is referenced.. i.e. @Body => Home.razor if Home uses this layout *@
-
-
-<footer style="bottom: 5px; position:fixed">
-    @System.DateTime.Now.ToLongDateString() : Meta
-</footer>
 
 <div id="blazor-error-ui">
 
@@ -37,3 +14,5 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+<RecordShopBlazor.Components.Layout.Footer.Footer />
