@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
+    @* doesnt specify height as can be impacted by bookmarks etc.. way more subject to change than a device's width *@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
     <link rel="stylesheet" href="BlazorError.css" />
@@ -15,7 +16,9 @@
         <title>RecordShop</title>
 
         @* adding query = cache bust (saves css as cache can not update on restart) *@
-        <link rel="stylesheet" href="./css/style.css?v=1.0" />    
+        <link rel="stylesheet" href="./css/style.css?v=1.0" />
+
+    <link rel="icon" href="https://cdn.pixabay.com/photo/2019/04/04/18/50/cassette-4103530_1280.jpg" />
 </head>
 
 <body theme=sand>

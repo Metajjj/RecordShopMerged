@@ -1,0 +1,47 @@
+﻿@rendermode InteractiveServer
+
+@page "/record/{id:int}"
+@* whitespace sensitive *@
+
+<h3>RecordDetails</h3>
+
+@inject IJSRuntime jsr;
+
+@code {
+
+    //Set by attribute param
+    [Parameter] public Albums Record { get; set; }
+
+    //Set by query param -- can be set by attribute?? Maybe server-side attribute so safe?
+    [Parameter] public int id { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Record = Global.GetRecordById(id);
+    }
+
+    private void SaveChanges(){
+        Global.JsonSrl(Record); //Changes work!
+    }
+}
+
+@* Editable *@
+<form style="background-color:var(--OuterBg); text-align: center">
+    <label for="title">Title</label> <br />
+    <input id="title" type="text" @bind="@Record.Title" />
+    <hr />
+    <label for="artist">Artist</label> <br />
+    <input id="artist" type="text" @bind="@Record.Artist" />
+    <hr />
+    <label for="RD">Release Date</label> <br />
+    @* <input id="RD" type="date" @bind-Value="Record.ReleaseDate" @bind-Value:event="UpdateRD" /> 
+        bind auto-enforces data integrity? even when type changes
+    *@
+    <input id="RD" type="date" @bind="Record.ReleaseDate" />
+    <hr />
+    <label for="Desc">Description</label> <br />
+    <textarea id="Desc" @bind="@Record.Description"/>
+    <hr />
+    <button type="button" @onclick=SaveChanges> Save Changes </button>
+
+</form>

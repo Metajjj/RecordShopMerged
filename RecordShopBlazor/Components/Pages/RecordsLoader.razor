@@ -1,0 +1,13 @@
+﻿<h3>RecordsLoader</h3>
+
+@code {
+    private List<Albums> Records = [];
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Records = Global.GetAllRecords();
+    }
+}
+
+<RecordShopBlazor.Components.Data.RecordSummaryList RecordList="Records" />

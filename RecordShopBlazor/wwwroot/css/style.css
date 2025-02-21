@@ -8,12 +8,21 @@
 
 body{ background-color: var(--MainBg); color: var(--MainFg); }
 
-footer, header{ background-color: var(--OuterBg); color: var(--OuterFg); }
+footer, header{
+    background-color: var(--OuterBg);
+}
+
+footer, header * {
+    color: var(--OuterFg);
+    text-shadow: var(--MainFg) 0px 1px 1px;
+    font-size: 3vw;
+}
 
 header{
     /*% = rel to parent, vh = rel to visible window*/
-    width: 80%; height:20vh;
-    padding: .5%;
+    width: 80vw; height:20vh;
+    padding: .5vh;
+    margin: 10% auto;
 
     text-align: center;
     margin: auto;
@@ -21,30 +30,20 @@ header{
     /*grid layout*/
     display: grid;
     grid-template-columns: 1fr 7fr 2fr;
-    grid-template-rows: minmax(10%,20%);
-}
+    grid-template-rows: minmax(0%,90%);
 
-/*@media querys to make responsive to diff layouts*/
-/*screen | printer | projected | tv | speech | all
-    screen-visual display, printer - i.e. print view, projeceted - presentation, speech - screen readers etc..
-*/
-
-@media screen and (max-width: 600px){
-    header{
-        display:grid; grid-template-rows: auto; grid-template-columns: 1fr;
-        /* auto fit content*/
-        color: var(--MainBg);
-    }
+    align-content: center;
 }
 
 header img{
     /*TODO set size limits*/
+    margin: 1.5vw;
     width:100%;
 }
 
-header *{
-    margin: auto; text-shadow: var(--MainFg) 0px 1px 1px;
-    font-size: 5vh;
+header nav{
+    background-color:var(--Accent);
+    color: var(--MainBg) !important;
 }
 
 footer {
@@ -56,3 +55,23 @@ footer {
     grid for overall layout, flex for adjustability
     2d vs 1d | layout vs content
 */
+
+
+/*@media querys to make responsive to diff layouts*/
+/*screen | printer | projected | tv | speech | all
+    screen-visual display, printer - i.e. print view, projeceted - presentation, speech - screen readers etc..
+*/
+
+/*TODO later - mobile layout (max 600px) || cannot be brackets around media type, only for */
+@media screen and (max-width: 600px) {
+    /*Adjust grid layouts to vertical styles*/
+    header {
+        height: fit-content;
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: 80%;
+        font-size: 100%;
+        /* auto fit content*/
+        color: var(--Accent);
+    }
+}

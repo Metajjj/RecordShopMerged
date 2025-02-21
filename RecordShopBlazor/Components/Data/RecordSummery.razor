@@ -1,0 +1,16 @@
+﻿<h3>RecordSummery</h3>
+
+@inject NavigationManager NvM;
+
+@code {
+    [Parameter]
+    public Albums Record { get; set; }
+
+    private void onClick(int s){
+        NvM.NavigateTo($"record/{s}");
+    }
+}
+
+@if(Record != null){
+    <div @onclick="()=>onClick(Record.Id)">Record Info: @($"{Record.Title} : {Record.Artist} : {Record.ReleaseDate}")</div>
+}

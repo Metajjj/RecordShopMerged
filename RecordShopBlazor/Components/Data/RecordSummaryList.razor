@@ -1,0 +1,14 @@
+﻿<h3>RecordSummaryList</h3>
+
+@code {
+    [Parameter]
+    public List<Albums> RecordList { get; set; } = [];
+}
+
+@if(RecordList.Count>0){
+    foreach(var a in RecordList){
+        <RecordSummery Record="a" />
+    }
+}else{
+    <div>Error no records to display!</div>
+}

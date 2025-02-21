@@ -13,7 +13,8 @@ namespace RecordShopBlazor
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents()
-                .AddInteractiveWebAssemblyComponents();
+                .AddInteractiveWebAssemblyComponents()
+            ;
 
             var app = builder.Build();
 

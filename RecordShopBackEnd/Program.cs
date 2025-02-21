@@ -52,6 +52,7 @@ namespace RecordShop_BE
 
             
             app.Run();
+            
         }
     }
 }
