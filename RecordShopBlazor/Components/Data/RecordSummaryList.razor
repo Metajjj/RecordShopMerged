@@ -1,8 +1,14 @@
-﻿<h3>RecordSummaryList</h3>
+﻿@page "/records"
+
+<h3>RecordSummaryList</h3>
 
 @code {
-    [Parameter]
     public List<Albums> RecordList { get; set; } = [];
+
+    protected override void OnInitialized()
+    {
+        RecordList = Global.GetAllRecords();
+    }
 }
 
 @if(RecordList.Count>0){

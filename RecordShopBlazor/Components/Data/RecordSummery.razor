@@ -7,10 +7,13 @@
     public Albums Record { get; set; }
 
     private void onClick(int s){
-        NvM.NavigateTo($"record/{s}");
+        if (Regex.IsMatch(NvM.Uri, "/records$"))
+        {
+            NvM.NavigateTo($"records/{s}");
+        }
     }
 }
 
 @if(Record != null){
-    <div @onclick="()=>onClick(Record.Id)">Record Info: @($"{Record.Title} : {Record.Artist} : {Record.ReleaseDate}")</div>
+    <div @onclick="()=>onClick(Record.Id)"> Record Info: @($"{Record.Title} : {Record.Artist} : {Record.ReleaseDate}") </div>
 }

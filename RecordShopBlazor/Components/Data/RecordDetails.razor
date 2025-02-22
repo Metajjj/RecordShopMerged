@@ -1,27 +1,54 @@
 ﻿@rendermode InteractiveServer
 
-@page "/record/{id:int}"
+@page "/records/{id:int}"
 @* whitespace sensitive *@
 
-<h3>RecordDetails</h3>
+<h3 id="RecordDetailsTitle">RecordDetails</h3>
 
 @inject IJSRuntime jsr;
+@inject NavigationManager NvM;
 
 @code {
 
     //Set by attribute param
     [Parameter] public Albums Record { get; set; }
+    private Albums PrevRecord { get; set; }
 
     //Set by query param -- can be set by attribute?? Maybe server-side attribute so safe?
     [Parameter] public int id { get; set; }
 
     protected override void OnInitialized()
-    {
+    {   
         Record = Global.GetRecordById(id);
+        PrevRecord = Global.GetRecordById(id);
     }
 
     private void SaveChanges(){
-        Global.JsonSrl(Record); //Changes work!
+        //Global.JsonSrl(PrevRecord); Global.JsonSrl(Record);
+        //Changes work!!                
+
+        //Red border for no change inputs, else green border!
+        // { val:false , val:true }
+        jsr.InvokeVoidAsync("ColorUI", new Dictionary<string,bool>{
+            [Record.Title] = Record.Title == PrevRecord.Title,
+            [Record.Artist] = Record.Artist == PrevRecord.Artist,
+            [Record.Description] = Record.Description == PrevRecord.Description,
+            //Reformat the DateOnly to fit the input.value format
+            [ Record.ReleaseDate.ToString("yyyy-MM-dd") ] = Record.ReleaseDate.ToShortDateString() == PrevRecord.ReleaseDate.ToShortDateString()
+        });
+    }
+
+    private void DelRecord()
+    {
+        var res = Global.DelRecord(Record.Id);
+
+        jsr.InvokeVoidAsync("DelRec", [res.StatusCode, res.Content.ReadAsStringAsync().Result]);
+
+        Task.Run(() =>
+        {
+            Thread.Sleep(1000 * 5);
+            NvM.NavigateTo("/records");
+        });
     }
 }
 
@@ -40,8 +67,43 @@
     <input id="RD" type="date" @bind="Record.ReleaseDate" />
     <hr />
     <label for="Desc">Description</label> <br />
-    <textarea id="Desc" @bind="@Record.Description"/>
+    <input id="Desc" type="text" @bind="@Record.Description"/>
     <hr />
     <button type="button" @onclick=SaveChanges> Save Changes </button>
-
+    <button type="button" @onclick=DelRecord> Delete Record </button>
 </form>
+
+<script>
+    function DelRec(Code,Msg){
+        document.getElementById("RecordDetailsTitle").innerText = `${Code} : ${Msg}`;
+    }
+
+    function ColorUI(IsChangedArr){
+
+        for(let i in IsChangedArr)
+        {
+            //console.log(`${i} : ${IsChangedArr[i]}`); //str : bool
+
+            for(let foundInput of document.querySelectorAll("input") ){
+
+                // console.log(i +" vs "+ foundInput.value);
+                if(foundInput.value == i){
+                    //console.log("^ - "+foundInput.value); WORKS
+
+                    if(IsChangedArr[i]){ 
+                        console.log("noChange - "+i);
+                        foundInput.style.border = "green dashed 2px;" 
+                        foundInput.style.color = "#008F00";
+                    }
+                    else{ 
+                        console.log("yesChange + "+i);
+                        //foundInput.style.border = "red solid 2px;" border doesnt work!
+                        foundInput.style.color = "#FF0000";
+                    }
+                }
+            }
+        }
+            //Auto kick out of edit, back to viewing all the records
+        setTimeout(()=>{window.location.href="/records"},1000* 5);
+    }
+</script>

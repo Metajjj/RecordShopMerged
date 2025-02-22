@@ -1,10 +1,21 @@
 ﻿
 @*ran idea.. 2 headers, 1 pos fixed, 1 invis to keep margin diff and other moves, invis on mouse scroll*@
+
+TODO global injects for NvM + JSr
+@inject NavigationManager NvM;
+@code{
+    private void ReturnHome()
+    {
+        NvM.NavigateTo(NvM.BaseUri);
+    }
+}
+
 <header>
     <img id="HeaderImg" src="https://picsum.photos/1000/1000" alt="Logo of a CD-disc" />
-    <h1 id="HeaderTitle">Record Shop</h1>
+    <h1 id="HeaderTitle" onclick="">Record Shop</h1>
     <nav id="HeaderNav">
         <h3>Nav Menu</h3>
-        <NavMenu>TODO</NavMenu>
+        <a href="/records"> All Records </a>
+        <a href="/records/add"> Add Record </a>
     </nav>
 </header>

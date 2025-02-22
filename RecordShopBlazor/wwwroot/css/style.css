@@ -51,6 +51,12 @@ footer {
     position: fixed;
 }
 
+/*TODO format record details input*/
+form input{
+    background-color: var(--MainBg); text-shadow: var(--Accent) 0px -1px 3px
+}
+
+
 /*TODO
     grid for overall layout, flex for adjustability
     2d vs 1d | layout vs content

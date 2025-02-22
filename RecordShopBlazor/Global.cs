@@ -22,6 +22,22 @@ public static class Global
     {
         return client.GetFromJsonAsync<Albums>($"/Album/{id}").Result;
     }
+
+    public static void UpdateRecord(Albums a)
+    {
+        //Doesn't allow edit of ID so will always match the one grabbed from db
+        client.PutAsJsonAsync("/Album", a);
+    }
+
+    public static HttpResponseMessage AddRecord(Albums a)
+    {
+        return client.PostAsJsonAsync("/Album", a).Result;
+    }
+
+    public static HttpResponseMessage DelRecord(int id)
+    {
+        return client.DeleteAsync($"/Album/{id}").Result;
+    }
     
 }
 

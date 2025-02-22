@@ -1,0 +1,62 @@
+﻿@page "/records/add"
+
+<h3 id="RecordAddTitle">RecordAdd</h3>
+
+@inject IJSRuntime jsr;
+@inject NavigationManager NvM;
+
+@code {
+    public Albums Record { get; set; } = new ();
+
+    private void AddChange()
+    {
+        //Global.JsonSrl(Record);
+        var res = Global.AddRecord(Record);
+
+        var body = res.Content.ReadAsStringAsync().Result;
+
+        //Failing??
+        jsr.InvokeVoidAsync("UpdateResult", $"Updated & added! - {res.StatusCode} : {body}", Record.Id );
+
+        Task.Run(() =>
+        {
+                //Navigates to first one, ignores extra added
+            Thread.Sleep(1000 * 6);
+            NvM.NavigateTo($"/records/{Regex.Match(body,"\\d+").Value}");
+        });
+    }
+}
+
+<form style="background-color:var(--OuterBg); text-align: center">
+    <label for="title">Title</label> <br />
+    <input id="title" type="text" @bind="@Record.Title" />
+    <hr />
+    <label for="artist">Artist</label> <br />
+    <input id="artist" type="text" @bind="@Record.Artist" />
+    <hr />
+    <label for="RD">Release Date</label> <br />
+    @* <input id="RD" type="date" @bind-Value="Record.ReleaseDate" @bind-Value:event="UpdateRD" /> 
+        bind auto-enforces data integrity? even when type changes
+    *@
+    <input id="RD" type="date" @bind="Record.ReleaseDate" />
+    <hr />
+    <label for="Desc">Description</label> <br />
+    <input id="Desc" type="text" @bind="@Record.Description" />
+    <hr />
+    <button type="button" @onclick=AddChange> Add Record </button>
+</form>
+
+    <script>
+        //Cannot use lambda with IJSr !
+        function UpdateResult (newText, id) {
+            let ele = document.getElementById("RecordAddTitle");
+
+            let orig = ele.innerText;
+
+            ele.innerText = newText;
+
+            setTimeout(()=>{
+                ele.innerText = orig;                
+            }, 1000* 10 );
+        }
+    </script>
