@@ -1,4 +1,5 @@
-﻿@page "/"
+﻿@* Forces this razor to be loaded first as its the / page *@
+@page "/"
 @layout Components.Layout.MainLayout;
 
 @* TODO default home page 
@@ -8,10 +9,25 @@
 
     [CascadingParameters] ??
 
+
+        Once your "FeaturedRecord" is complete, refactor your site to use Cascading Parameters to share the results of RecordsLoader with both the homepage and the "All Records" list?
+
 about page
 *@
 
 <!-- auto fills max width -->
 <h1>Welcome Page</h1>
+
+@code{
+    private Albums FtRc;
+    protected override void OnParametersSet()
+    {
+        var r = Global.GetAllRecords();
+        if (r.Count > 0)
+        { FtRc = r[new Random().Next(0, r.Count)]; }
+    }
+}
+
+<RecordFeatured Record="@FtRc" />
 
 <RecordsLoader />
