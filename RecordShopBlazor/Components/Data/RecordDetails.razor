@@ -43,6 +43,7 @@
         var res = Global.DelRecord(Record.Id);
 
         jsr.InvokeVoidAsync("DelRec", [res.StatusCode, res.Content.ReadAsStringAsync().Result]);
+        //TODO disable buttons
 
         Task.Run(() =>
         {
@@ -102,6 +103,8 @@
                     }
                 }
             }
+
+            //for(let b of document.querySelectorAll("button")) { b.disabled=true; }
         }
             //Auto kick out of edit, back to viewing all the records
         setTimeout(()=>{window.location.href="/records"},1000* 5);

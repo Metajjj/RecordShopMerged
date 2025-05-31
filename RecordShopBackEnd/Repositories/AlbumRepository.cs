@@ -128,7 +128,9 @@ namespace RecordShop_BE.Repositories
 
         public Albums DeleteAlbumById(int id)
         {
+            //TODO can be null - need error tests
             var a = GetAlbumById(id);
+            if (a == null) { return null; }
             context.AlbumTable.Remove(a); context.SaveChanges();
 
             return a;

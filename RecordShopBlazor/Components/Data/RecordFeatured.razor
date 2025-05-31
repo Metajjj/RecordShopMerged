@@ -4,5 +4,9 @@
     [Parameter] public Albums Record { get; set; }
 }
 
-<h2>Featured: @Record.Title - @Record.Artist</h2>
+@if (Record != null) {
+    <h2>Featured: @Record.Title - @Record.Artist</h2>
+}else {
+    <h2>Featured: TODO - TODO</h2>
+}
 

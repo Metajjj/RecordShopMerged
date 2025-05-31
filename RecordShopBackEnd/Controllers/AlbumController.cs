@@ -49,7 +49,7 @@ namespace RecordShop_BE.Controllers
             return Ok("Successfully added "+a.Title+" with ID of "+service.PostAlbum(a).Id);
         }
 
-            //  HttpContext not accepted for actual env!
+            //TODO  HttpContext not accepted for actual env!
         /*[HttpPut]
         public IActionResult PutAlbum(HttpContext htpc) //cant test without parsing!
         {
@@ -91,7 +91,7 @@ namespace RecordShop_BE.Controllers
 
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteAlbumId(string id)
+        public IActionResult DeleteAlbumById(string id)
         {
             try
             {

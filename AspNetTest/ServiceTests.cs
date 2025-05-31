@@ -70,5 +70,14 @@ namespace TestApp
 
             mock.Verify(m => m.PutAlbum(It.IsAny<Albums>()), Times.Once());
         }
+
+        public void DelAlbum()
+        {
+            mock.Setup(m => m.DeleteAlbumById(It.IsAny<int>())).Returns(new Albums { });
+
+            core.DeleteAlbumById("");
+
+            mock.Verify(m => m.DeleteAlbumById(It.IsAny<int>()), Times.Once());
+        }
     }
 }

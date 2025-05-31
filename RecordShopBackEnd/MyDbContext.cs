@@ -24,7 +24,6 @@ namespace RecordShop_BE
 
         public DbSet<Albums> AlbumTable { get; set; }
 
-        //TODO migration doesnt like detecting memDB
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //Check if in development mode ?? run inmemory vs SQL -- this one overwrites, no need for constructor context!
@@ -44,7 +43,9 @@ namespace RecordShop_BE
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        { modelBuilder.Entity<Albums>().HasData(new Albums { Id = 2, Title = "ABC" });  }
+        { 
+            //modelBuilder.Entity<Albums>().HasData(new Albums { Id = 2, Title = "ABC" });  
+        }
     }
 
     public class E : IWebHostEnvironment

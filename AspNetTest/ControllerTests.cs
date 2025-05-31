@@ -118,7 +118,28 @@ namespace TestApp
         [Test]
         public void DeleteAlbum()
         {
+            //TODO delete album test
+            mock.Setup(ms => ms.DeleteAlbumById(
+               It.IsAny<string>()))
+               .Returns(new Albums { Title = "AC/DC", Id = 13 });
 
+            mock.Setup(ms => ms.DeleteAlbumById("1")).Returns<Albums>(null);
+
+            mock.Setup(ms => ms.DeleteAlbumById("a")).Throws<FormatException>();
+
+            Assert.Multiple(
+                () =>
+                {
+                    var res = core.DeleteAlbumById("13");
+                    Assert.That(res, Is.TypeOf<OkObjectResult>());
+
+                    res = core.DeleteAlbumById("1");
+                    Assert.That(res, Is.TypeOf<NotFoundObjectResult>());
+
+                    res = core.DeleteAlbumById("a");
+                    Assert.That(res, Is.TypeOf<BadRequestObjectResult>());
+                }
+            );
         }
     }
 
